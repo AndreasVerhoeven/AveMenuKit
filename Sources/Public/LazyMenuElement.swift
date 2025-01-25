@@ -40,13 +40,12 @@ open class LazyMenuElement: MenuElement {
 
 	// MARK: - Module Internal
 	internal func prepareForPresentationInMenu(properties: MenuProperties) {
+		resetIfNotCaching()
 		loadElementsIfNeeded()
 	}
 
 	override func cleanupAfterDisplay() {
-		guard shouldCache == false else { return }
-		loadedElements = nil
-		isLoading = false
+		resetIfNotCaching()
 	}
 
 	override func actualMenuElements(properties: MenuProperties) -> [MenuElement] { 
@@ -59,6 +58,13 @@ open class LazyMenuElement: MenuElement {
 	private var isLoading = false
 	private var currentLoadingIdentifier: UUID?
 	private lazy var loadingElement = LoadingElement()
+
+	private func resetIfNotCaching() {
+		guard shouldCache == false else { return }
+		loadedElements = nil
+		currentLoadingIdentifier = nil
+		isLoading = false
+	}
 
 	private func loadElementsIfNeeded() {
 		guard loadedElements == nil && isLoading == false else { return }

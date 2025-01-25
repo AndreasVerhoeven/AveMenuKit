@@ -142,7 +142,7 @@ open class Menu: MenuElement, MenuStandardContent {
 		}
 	}
 
-	/// Id true
+	/// If true, this item should render to signal it's a destructive operation
 	open var isDestructive = false {
 		didSet {
 			guard isDestructive != oldValue else { return }

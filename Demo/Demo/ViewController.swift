@@ -38,13 +38,31 @@ class ViewController: UIViewController {
 	func createMenu() -> Menu {
 		return Menu(
 			children: [
+
+				Action(title: "See All Friends", image: UIImage(systemName: "person.3")),
+				.separator,
+				TitleHeader(title: "Shared With:"),
+				LazyMenuElement(shouldCache: false, provider: { completion in
+					DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+						completion([
+							Action(title: "John", image: UIImage(systemName: "person")),
+							Action(title: "Diane", image: UIImage(systemName: "person")),
+							Action(title: "Peter", image: UIImage(systemName: "person")),
+							Action(title: "Christina", image: UIImage(systemName: "person")),
+						])
+					})
+				})
+
+				/*
 				// an inline group of 3 buttons next to each other
 				.mediumInlineGroup(
 					Action(title: "Copy", image: UIImage(systemName: "doc.on.doc")),
 					Action(title: "Cut", image: UIImage(systemName: "scissors")),
 					Action(title: "Paste", image: UIImage(systemName: "clipboard"))
 				),
+				*/
 
+				/*
 				// a scrollable palette of circles
 				.palette([
 					Action(image: UIImage(systemName: "circle.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal), isSelected: true),
@@ -55,37 +73,12 @@ class ViewController: UIViewController {
 					Action(image: UIImage(systemName: "circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)),
 
 				]).paletteSelectionStyle(.openCircle),
-
-				// a standard inline menu with regular items
-				.inline(
-					Action(title: "Preferences", image: UIImage(systemName: "gear")),
-					Action(title: "Bookmarks", image: UIImage(systemName: "bookmark"))
-				),
-
-				// a sub menu with a special search header
-				Menu(title: "Contacts", children: [
-					Action(title: "John"),
-					Action(title: "Diane"),
-					Action(title: "Mark"),
-				], headers: [
-					SearchField(placeholder: "Search Contacts"),
-				]),
-
-				// an element that will be loaded on demand after 2 seconds
-				.uncachedLazy({ completion in
-					DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-						completion([
-							// a separator
-							.separator,
-							Action(title: "More..."),
-						])
-					}
-				})
+				*/
 
 			],
 			headers: [
 				// a custom profile view on top as a header
-				CustomView(view: createHeaderView())
+				//CustomView(view: createHeaderView())
 			]
 		)
 	}
