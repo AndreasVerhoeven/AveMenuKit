@@ -1,0 +1,42 @@
+{
+  "originHash" : "8c51105cd0c961c0a06eeac1cd791ad7e71b8d58a8a873ba509d6750f627ba39",
+  "pins" : [
+    {
+      "identity" : "autolayoutconvenience",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndreasVerhoeven/AutoLayoutConvenience",
+      "state" : {
+        "branch" : "main",
+        "revision" : "789426b5e94ec269acddb82d8d8b0240c8d675fa"
+      }
+    },
+    {
+      "identity" : "avecommonhelperviews",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndreasVerhoeven/AveCommonHelperViews",
+      "state" : {
+        "branch" : "main",
+        "revision" : "39d31774a724d42583a4f0242185aec95168f71c"
+      }
+    },
+    {
+      "identity" : "avedatasource",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndreasVerhoeven/AveDataSource",
+      "state" : {
+        "branch" : "master",
+        "revision" : "836f93f20ab2fa65ffe1678be64700c9a8f8230d"
+      }
+    },
+    {
+      "identity" : "uikitanimations",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndreasVerhoeven/UIKitAnimations",
+      "state" : {
+        "branch" : "main",
+        "revision" : "82a1bf04a86b78200b855f4e2b4d0fdf9d092e4a"
+      }
+    }
+  ],
+  "version" : 3
+}
