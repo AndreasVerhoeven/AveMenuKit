@@ -295,6 +295,7 @@ let menu = Menu(children: [...], headers: [customViewElement])
 ```
 
 This results in:
+
 <img width="292" alt="Image" src="https://github.com/user-attachments/assets/ee9b35b8-8912-4fb5-9090-f7a42af90060" />
 
 #### Properties:
