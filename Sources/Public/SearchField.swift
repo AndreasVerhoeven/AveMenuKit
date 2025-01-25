@@ -20,7 +20,7 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 
 	/// the search text to display by default. Will be updated when the user
 	/// interacts with the search field.
-	open var searchText: String? {
+	open var searchText = "" {
 		didSet {
 			guard placeholder != oldValue else { return }
 			guard ignoreSearchTextUpdateCount <= 0 else { return }
@@ -41,9 +41,10 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 	open var shouldAutomaticallyFocusOnAppearance = false
 
 	/// the callback called when `searchText` changes due to user input.
-	open var updater: ((String?) -> Void)?
+	open var updater: Updater?
+	public typealias Updater = (String) -> Void
 
-	public init(placeholder: String? = nil, searchText: String? = nil, updater: ((String?) -> Void)? = nil) {
+	public init(placeholder: String? = nil, searchText: String = "", updater: Updater? = nil) {
 		self.placeholder = placeholder
 		self.searchText = searchText
 		self.updater = updater
@@ -53,7 +54,7 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 	internal var didAutoFocus = false
 	internal var originalSearchText: String?
 
-	internal func setSearchTextFromSearchField(_ searchText: String?) {
+	internal func setSearchTextFromSearchField(_ searchText: String) {
 		ignoreSearchTextUpdateCount += 1
 		defer { ignoreSearchTextUpdateCount -= 1 }
 		self.searchText = searchText
@@ -72,7 +73,7 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 
 		ignoreSearchTextUpdateCount += 1
 		defer { ignoreSearchTextUpdateCount -= 1 }
-		searchText = originalSearchText
+		searchText = originalSearchText ?? ""
 	}
 }
 

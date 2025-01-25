@@ -163,7 +163,7 @@ extension Menu {
 
 	private func titleHeader(for id: ID, title: String) -> TitleHeader {
 		let titleId = "Title for menu \(id)"
-		let titleHeader = subElement(for: titleId, creation: { TitleHeader(title: title) })
+		let titleHeader = subElement(for: titleId, creation: { TitleHeader(title) })
 		titleHeader.ignoringUpdates {
 			titleHeader.title = title
 		}

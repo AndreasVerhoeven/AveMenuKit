@@ -37,32 +37,14 @@ class ViewController: UIViewController {
 
 	func createMenu() -> Menu {
 		return Menu(
-			children: [
-
-				Action(title: "See All Friends", image: UIImage(systemName: "person.3")),
-				.separator,
-				TitleHeader(title: "Shared With:"),
-				LazyMenuElement(shouldCache: false, provider: { completion in
-					DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-						completion([
-							Action(title: "John", image: UIImage(systemName: "person")),
-							Action(title: "Diane", image: UIImage(systemName: "person")),
-							Action(title: "Peter", image: UIImage(systemName: "person")),
-							Action(title: "Christina", image: UIImage(systemName: "person")),
-						])
-					})
-				})
-
-				/*
+			children:[
 				// an inline group of 3 buttons next to each other
 				.mediumInlineGroup(
 					Action(title: "Copy", image: UIImage(systemName: "doc.on.doc")),
 					Action(title: "Cut", image: UIImage(systemName: "scissors")),
 					Action(title: "Paste", image: UIImage(systemName: "clipboard"))
 				),
-				*/
 
-				/*
 				// a scrollable palette of circles
 				.palette([
 					Action(image: UIImage(systemName: "circle.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal), isSelected: true),
@@ -73,12 +55,11 @@ class ViewController: UIViewController {
 					Action(image: UIImage(systemName: "circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)),
 
 				]).paletteSelectionStyle(.openCircle),
-				*/
 
 			],
 			headers: [
 				// a custom profile view on top as a header
-				//CustomView(view: createHeaderView())
+				CustomView(view: createHeaderView())
 			]
 		)
 	}

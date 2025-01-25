@@ -155,6 +155,7 @@ A placeholder menu element that will replace itself with the result of a provide
 
 
 #### Example
+
 ```
 LazyMenuElement(shouldCache: false, provider: { completion in
   // pretend we are loading data from somewhere that takes 3 seconds
@@ -185,17 +186,91 @@ Will result in the following:
 
 ### Separator
 
+Sometimes you just want to show a separator between elements, without introducing a whole submenu that complicate things. This is where `Separator` comes in. It's a separator.
+
+#### Example
+
+```
+Separator()
+```
+
+The separator is marked in red here:
+
+<img width="272" alt="Image" src="https://github.com/user-attachments/assets/60e37c52-5524-4fc0-991c-010041af6718" />
+
+#### Properties:
+
+- `isHidden` if set to true, this element won't be shown at all
+
 </details>
 <details>
 <summary>TitleHeader</summary>
 
 ### TitleHeader
 
+Sometimes you want to have a title header, without introducing a whole submenu. This is where `TitleHeader` comes in.
+
+
+#### Example
+
+```
+TitleHeader("My Title")
+```
+
+The title header is marked in red here:
+
+<img width="267" alt="Image" src="https://github.com/user-attachments/assets/77f49d68-f3c0-4c63-aa37-a6ea8bb65bfc" />
+
+#### Properties:
+
+- `title` the title to show
+- `isHidden` if set to true, this element won't be shown at all
+
 </details>
 <details>
 <summary>SearchField</summary>
 
 ### SearchField
+
+Embeds a search field in the menu. Best used as a `headers` element in a (sub)menu.
+
+#### Example
+
+````
+// we define a set of languages as Actions
+let languages = [
+  Action(title: "Dutch"),
+  Action(title: "English"),
+  Action(title: "French"),
+  Action(title: "German"),
+  Action(title: "Italian"),
+  Action(title: "Spanish"),
+  Action(title: "Swedish"),
+]
+
+// next we have a search field that on search filters the languages by hiding the elemtns that don't match'
+let searchField = SearchField(placeholder: "Search For a Language", updater: { searchText in
+  for language in languages {
+    language.isHidden = (searchText.isEmpty == false && language.title?.localizedCaseInsensitiveContains(searchText) == false)
+  }
+})
+
+// and finally we build a menu with the languages as children and the searchField as a header
+return Menu(children: languages, headers: [searchField])
+````
+
+This shows as:
+
+![Image](https://github.com/user-attachments/assets/499f6b35-0864-4f9d-9748-029026893fe0)
+
+#### Properties:
+
+- `placeholder` the placeholder that is shown in the search field when the user didn't any text yet
+- `searchText` the search text to show in the search field by default. Will be updated when the user types in the search field
+- `updater` the callback that will be called when the user types in the search field.
+- `shouldAutomaticallyFocusOnAppearance` if true, the search field will become first responder when it appears to the user
+- `isEnabled` if false, the search field cannot be focused 
+- `isHidden` if set to true, this element won't be shown at all
 
 </details>
 <details>
@@ -247,7 +322,7 @@ Will result in the following:
 
 ## Details on Custom Views
 
-### When to use what?
+### When to Use Which Element?
 
 ### ReusableViewConfiguration
 

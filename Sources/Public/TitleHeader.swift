@@ -18,7 +18,7 @@ open class TitleHeader: MenuElement, NonSelectableMenuLeaf {
 		}
 	}
 
-	public init(title: String) {
+	public init(_ title: String) {
 		self.title = title
 		super.init()
 	}
