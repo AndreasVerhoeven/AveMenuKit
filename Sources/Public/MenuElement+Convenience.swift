@@ -20,6 +20,14 @@ public extension MenuElement {
 		return Menu(title: title, image: image, children: children, headers: headers)
 	}
 
+	static func submenu(title: String, image: UIImage? = nil, _ children: [MenuElement], headers: [MenuElement] = []) -> Menu {
+		return Menu(title: title, image: image, children: children, headers: headers)
+	}
+
+	static func submenu(title: String, image: UIImage? = nil, _ children: MenuElement...) -> Menu {
+		return Menu(title: title, image: image, children: children)
+	}
+
 	static var separator: Separator {
 		return Separator()
 	}
