@@ -105,6 +105,5 @@ class ViewController: UIViewController {
 		view.addSubview(button, pinnedTo: .topCenter, of: .safeArea, offset: CGPoint(x: 0, y: 4))
 
 		button.addInteraction(MenuInteraction(menu: createMenu()))
-
 	}
 }
