@@ -248,7 +248,7 @@ let languages = [
   Action(title: "Swedish"),
 ]
 
-// next we have a search field that on search filters the languages by hiding the elemtns that don't match'
+// next we have a search field that on search filters the languages by hiding the elements that don't match'
 let searchField = SearchField(placeholder: "Search For a Language", updater: { searchText in
   for language in languages {
     language.isHidden = (searchText.isEmpty == false && language.title?.localizedCaseInsensitiveContains(searchText) == false)
@@ -277,6 +277,42 @@ This shows as:
 <summary>CustomView</summary>
 
 ### CustomView
+
+This allows you to embed a custom view in a menu. The element cannot be highlighted and the custom view can be interacted with by the user (e.g. you can place controls in it). This element is best used a `headers` element.
+
+
+#### Example
+
+```
+// a function that creates a header view for us with a profile photo and a name and subtitle
+let headerView = createHeaderView()
+
+// next we create an element for it
+let customViewElement = CustomView(view: headerView)
+
+let menu = Menu(children: [...], headers: [customViewElement])
+
+```
+
+This results in:
+<img width="292" alt="Image" src="https://github.com/user-attachments/assets/ee9b35b8-8912-4fb5-9090-f7a42af90060" />
+
+#### Properties:
+
+- `view` the custom view. This is a `ReusableViewConfiguration` for more flexibility. See the discussion below.
+- `isHidden` if set to true, this element won't be shown at all
+
+#### Convenience Initializers:
+
+- `init(view: UIView)` takes an existing view and shows it
+- `init(viewProvider: @escaping () -> UIView)` creates the view on demand by calling the `viewProvider` block when needed
+
+
+#### Reusable Views
+
+While for one-off header views you usually don't need __reusability__ of views, you might want to. If you create an element (or a subclass) that can be used many times in a menu, you need to make your view reusable: if your `CustomView` element is shown, the system will ask try to use an already cached one by checking for the `reuseIdentifier` of your `ReusableViewConfiguration` and only when there is none will ask you to create one via the `provider` callback of your `ReusableViewConfiguration`. Then, it will ask you to configure the view (which was either cached or newly created) via the `update` handler of the `ReusableViewConfiguration`.
+
+This system allows the menu to be performant when there are many offscreen elements and the menu is scrollable. It works the same way as `UITableViewCell` and `UICollectionViewCell` reusability. `ReusableViewConfiguration` allows you to specify which level of reusability you want. See more in the section on `ReusableViewConfiguration`.
 
 </details>
 <details>
