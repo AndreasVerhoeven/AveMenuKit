@@ -280,6 +280,7 @@ This shows as:
 
 This allows you to embed a custom view in a menu. The element cannot be highlighted and the custom view can be interacted with by the user (e.g. you can place controls in it). This element is best used a `headers` element.
 
+The view you supply can take up the full width of the menu and is free to determine its own height.
 
 #### Example
 
@@ -308,12 +309,11 @@ This results in:
 - `init(view: UIView)` takes an existing view and shows it
 - `init(viewProvider: @escaping () -> UIView)` creates the view on demand by calling the `viewProvider` block when needed
 
-
 #### Reusable Views
 
-While for one-off header views you usually don't need __reusability__ of views, you might want to. If you create an element (or a subclass) that can be used many times in a menu, you need to make your view reusable: if your `CustomView` element is shown, the system will ask try to use an already cached one by checking for the `reuseIdentifier` of your `ReusableViewConfiguration` and only when there is none will ask you to create one via the `provider` callback of your `ReusableViewConfiguration`. Then, it will ask you to configure the view (which was either cached or newly created) via the `update` handler of the `ReusableViewConfiguration`.
+If you use `CustomViewAction` as a one-off element, you usually don't need reusablity and can use one of the convenience initializers. However, if you build a __subclass__ or __reusable__ Element, your element can be shown a lot of times and you need to account for __reusability__ by using a full `ReusableViewConfiguration`. 
 
-This system allows the menu to be performant when there are many offscreen elements and the menu is scrollable. It works the same way as `UITableViewCell` and `UICollectionViewCell` reusability. `ReusableViewConfiguration` allows you to specify which level of reusability you want. See more in the section on `ReusableViewConfiguration`.
+See the discussion on `ReusableViewConfiguration` below.
 
 </details>
 <details>
@@ -321,11 +321,143 @@ This system allows the menu to be performant when there are many offscreen eleme
 
 ### CustomViewAction
 
+This allows you to embed a custom view in a menu and have the highlight and tap the element. When the element is tapped, a handler is called and the menu is dismissed, like a regular `Action`. The custom view cannot be interacted with by the user. 
+
+The view you supply can take up the full width of the menu and is free to determine its own height.
+
+#### Example
+
+```
+// a function that creates a header view for us with a profile photo and a name and subtitle
+let headerView = createHeaderView()
+
+// next we create an element for it and register a handler
+let customViewActionElement = CustomView(view: headerView, handler: { _ in
+  print("Selected!") 
+})
+
+let menu = Menu(children: [customViewActionElement])
+
+```
+
+This results in:
+
+<img width="292" alt="Image" src="https://github.com/user-attachments/assets/ee9b35b8-8912-4fb5-9090-f7a42af90060" />
+
+#### Properties:
+
+- `view` the custom view. This is a `ReusableViewConfiguration` for more flexibility. See the discussion below.
+
+##### Attributes
+
+- `isEnabled` if false, the element cannot be selected. The custom view can change the appearance of the menu.
+- `isDestructive` set this if the element is for a destructive operation. The custom view can change the appearance of the menu.
+- `isHidden` if set to true, this element won't be shown at all
+
+##### Interaction
+- `handler` the handler that will be invoked when the user taps on the item
+- `keepsMenuPresented` if true, the menu will not be dismissed when the user taps on the item
+
+#### Convenience Initializers:
+
+- `init(view: UIView)` takes an existing view and shows it
+- `init(viewProvider: @escaping () -> UIView)` creates the view on demand by calling the `viewProvider` block when needed
+
+#### Reusable Views
+
+If you use `CustomViewAction` as a one-off element, you usually don't need reusablity and can use one of the convenience initializers. However, if you build a __subclass__ or __reusable__ MenuElement, your element can be shown a lot of times and you need to account for __reusability__ by using a full `ReusableViewConfiguration`. 
+
+See the discussion on `ReusableViewConfiguration` below.
+
 </details>
 <details>
 <summary>CustomContentViewAction</summary>
 
 ### CustomContentViewAction
+
+This allows you to make a custom `Action` element with a custom view as content and a custom `trailing accessory`. The custom view and trailing accessory are positioned and managed for you, so that it follows the layout of other `Action` elements. E.g, your content might be insetted from the edges of the menu, depending on the configuration of the action and other.
+
+A `CustomContentViewAction` also can show a checkmark and has a `handler` when it is tapped on. The views you provide are not interactable.
+
+#### Example
+
+````
+// Our custom content view is a label that shows an attributed string to
+// show a (beta) label in a custom font and color.
+let contentView = ReusableViewConfiguration.reusableView(
+  reuseIdentifier: "MyLabel",
+  provider: {
+    // simple label - we could do more configuration here if needed
+    return UILabel()
+  }, updater: { label, metrics, animated in
+    // configure our label with the metrics
+    label.numberOfLines = metrics.maximumNumberOfLines
+    label.textColor = metrics.contentColor
+    label.font = metrics.contentFont
+
+    // and set an attributed string as the label text
+    let attributedText = NSMutableAttributedString(string: "AutoSummary")
+    attributedText.append(NSAttributedString(string: " (beta)", attributes: [
+	  .font: UIFont.preferredFont(forTextStyle: .caption1),
+	  .foregroundColor: metrics.contentColor.withAlphaComponent(0.5),
+	  .baselineOffset: 5,
+    ]))
+    label.attributedText = attributedText
+  }
+)
+
+// `Action` can only show images, but we want to show an emoji, so
+// our trailing accessory is a `UILabel` that shows an emoji.
+//
+// We use the `viewClass` variant here, since we don't configure the label
+let trailingAccessoryView = ReusableViewConfiguration.reusableView(
+  reuseIdentifier: "MyAccessoryLabel",
+  viewClass: UILabel.self,
+  updater: { label, metrics, animated in
+    label.font = metrics.contentFont
+    label.numberOfLines = 1
+    label.text = "😍"
+  }
+)
+
+// configure our `CustomContentViewAction`. Notice how we can use the `isSelected` property, just like with regular Actions
+let customContentViewAction = CustomContentViewAction(contentView: contentView, trailingAccessoryView: trailingAccessoryView, isSelected: true)
+
+// and create our menu with our custom action
+return Menu(children: [
+	Action(title: "Preferences", image: UIImage(systemName: "gear")),
+	.separator,
+	Action(title: "Use Language", image: UIImage(systemName: "globe"), isSelected: true),
+	Action(title: "Use Location", image: UIImage(systemName: "location")),
+	customContentViewAction
+])
+````
+
+This results in the following menu, where the bottom element is using a custom content view: notice the `(beta)` label in a different font and color on the title and the use of an emoji as image. 
+
+<img width="269" alt="Image" src="https://github.com/user-attachments/assets/d7b94ca4-4ee8-4776-b51f-519d69680fcb" />
+
+#### Properties:
+
+- `contentView` the custom content view that is placed where the `title` of a normal `Action` is shown. This is a `ReusableViewConfiguration` for more flexibility. See the discussion below.
+- `trailingAccessoryView` the trailing accessory view that is placed where the `image` of a normal `Action` is shown. This is a `ReusableViewConfiguration` for more flexibility. See the discussion below.
+
+##### Attributes
+
+- `isSelected` if true, the item will be shown with a checkmark indicating selection
+- `isEnabled` if false, the element cannot be selected
+- `isDestructive` set this if the element is for a destructive operation
+- `isHidden` if set to true, this element won't be shown at all
+
+##### Interaction
+- `handler` the handler that will be invoked when the user taps on the item
+- `keepsMenuPresented` if true, the menu will not be dismissed when the user taps on the item
+   
+#### Reusable Views
+
+You usually use this element when you want to provide a __subclass__ or a __reusable__ MenuElement. Because your custom element can be shown a lot of times in a menu, you need to account for __reusability__ for performance reasons. 
+
+See the discussion on `ReusableViewConfiguration` below.
 
 </details>
 <details>
@@ -362,5 +494,9 @@ This system allows the menu to be performant when there are many offscreen eleme
 ### When to Use Which Element?
 
 ### ReusableViewConfiguration
+
+While for one-off header views you usually don't need __reusability__ of views, you might want to. If you create an element (or a subclass) that can be used many times in a menu, you need to make your view reusable: if your `CustomView` element is shown, the system will ask try to use an already cached one by checking for the `reuseIdentifier` of your `ReusableViewConfiguration` and only when there is none will ask you to create one via the `provider` callback of your `ReusableViewConfiguration`. Then, it will ask you to configure the view (which was either cached or newly created) via the `update` handler of the `ReusableViewConfiguration`.
+
+This system allows the menu to be performant when there are many offscreen elements and the menu is scrollable. It works the same way as `UITableViewCell` and `UICollectionViewCell` reusability. `ReusableViewConfiguration` allows you to specify which level of reusability you want. See more in the section on `ReusableViewConfiguration`.
 
 ### MenuMetrics

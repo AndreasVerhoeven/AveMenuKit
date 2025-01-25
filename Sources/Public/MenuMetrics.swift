@@ -14,6 +14,9 @@ public struct MenuMetrics: Equatable {
 	/// the preferred maximum number of lines for UILabels
 	public internal(set) var maximumNumberOfLines = 2
 
+	/// the preferred font for text
+	public internal(set) var contentFont = UIFont.preferredFont(forTextStyle: .body)
+
 	// MARK: Content
 	/// The color the content should be rendered in - based on `isDestructive` and `isEnabled` flags if available
 	public internal(set) var contentColor = UIColor.label

@@ -35,6 +35,49 @@ class ViewController: UIViewController {
 		return headerView
 	}
 
+	func customContentViewAction() -> CustomContentViewAction {
+		// Our custom content view is a label that shows an attributed string to
+		// show a (beta) label in a custom font and color.
+		let contentView = ReusableViewConfiguration.reusableView(
+			reuseIdentifier: "MyLabel",
+			provider: {
+				// simple label - we could do more configuration here if needed
+				return UILabel()
+			}, updater: { label, metrics, animated in
+				// configure our label with the metrics
+				label.numberOfLines = metrics.maximumNumberOfLines
+				label.textColor = metrics.contentColor
+				label.font = metrics.contentFont
+
+				// and set an attributed string as the label text
+				let attributedText = NSMutableAttributedString(string: "AutoSummary")
+				attributedText.append(NSAttributedString(string: " (beta)", attributes: [
+					.font: UIFont.preferredFont(forTextStyle: .caption1),
+					.foregroundColor: metrics.contentColor.withAlphaComponent(0.5),
+					.baselineOffset: 5,
+				]))
+				label.attributedText = attributedText
+			}
+		)
+
+		// `Action` can only show images, but we want to show an emoji, so
+		// our trailing accessory is a `UILabel` that shows an emoji.
+		//
+		// We use the `viewClass` variant here, since we don't configure the label
+		let trailingAccessoryView = ReusableViewConfiguration.reusableView(
+			reuseIdentifier: "MyAccessoryLabel",
+			viewClass: UILabel.self,
+			updater: { label, metrics, animated in
+				label.font = metrics.contentFont
+				label.numberOfLines = 1
+				label.text = "😍"
+			}
+		)
+
+		// configure our `CustomContentViewAction`. Notice how we can use the `isSelected` property, just like with regular Actions
+		return CustomContentViewAction(contentView: contentView, trailingAccessoryView: trailingAccessoryView, isSelected: true)
+	}
+
 	func createMenu() -> Menu {
 		return Menu(
 			children:[
@@ -55,7 +98,7 @@ class ViewController: UIViewController {
 					Action(image: UIImage(systemName: "circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)),
 
 				]).paletteSelectionStyle(.openCircle),
-
+				customContentViewAction(),
 			],
 			headers: [
 				// a custom profile view on top as a header

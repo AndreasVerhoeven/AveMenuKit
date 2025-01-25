@@ -36,6 +36,7 @@ class MenuCustomContentViewCell: MenuContentHostingCell {
 		customContentReusableView.update(metrics: metrics, animated: animated)
 		customTrailingAccessoryReusableView.update(metrics: metrics, animated: animated)
 
+		checkmarkView.tintColor = metrics.contentColor
 		checkmarkView.isHidden = (element.isSelected == false)
 	}
 }
