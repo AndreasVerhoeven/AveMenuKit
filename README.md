@@ -634,11 +634,21 @@ func onLongPressStarted(sender: UILongPressGestureRecognizer) {
 
 ### Small & Medium Elements
 
+Menus with `preferredElementSize` set to `.small` or `.medium` will try to render their `Action`, non-inline `Menu` and `LazyMenuElement`s as side-by-side buttons. `.small` can hold up to 5 elements, `.medium` up to 3. Any extra elements or custom elements will be shown as regular elements. 
+
+<img width="277" alt="Image" src="https://github.com/user-attachments/assets/12cbb20b-6459-4fcf-9a22-6b8eefc09bb4" />
+
 </details>
 <details>
 <summary>Palette Menus</summary>
 
 ### Palette Menus
+
+A menu with `displaysAsPalette` set to true will render any `Action`, non-inline `Menu` or `LazyMenuElement` as inline scrollable palette strip.
+
+<img width="277" alt="Image" src="https://github.com/user-attachments/assets/5ae50cff-c5d3-4c36-afb2-b62d838cec10" />
+
+You can control the way `isSelected` elements are shown using the `paletteSelectionStyle` property on the `Menu`. By default it tints the image, but you can also use a circle or an open circle.  
 
 </details>
 
@@ -647,10 +657,39 @@ func onLongPressStarted(sender: UILongPressGestureRecognizer) {
 
 ### When to Use Which Element?
 
+There are three custom view elements in AveMenuKit, for different use cases.
+
+- Use `CustomView` if you want to display a view in the menu, most often as a header.
+- Use `CustomViewAction` if you want an element that the user can tap on, but with a completely custom layout
+- Use `CustomContentViewAction` if you want an `Action` but with different content and image views.
+
 ### ReusableViewConfiguration
 
-While for one-off header views you usually don't need __reusability__ of views, you might want to. If you create an element (or a subclass) that can be used many times in a menu, you need to make your view reusable: if your `CustomView` element is shown, the system will ask try to use an already cached one by checking for the `reuseIdentifier` of your `ReusableViewConfiguration` and only when there is none will ask you to create one via the `provider` callback of your `ReusableViewConfiguration`. Then, it will ask you to configure the view (which was either cached or newly created) via the `update` handler of the `ReusableViewConfiguration`.
+For simple, one-off views such as header you don't need to take __reusability__ into account. However, if you make a subclass element that provides a different configuration you need to think of __reusability__. Your element subclass could be added hundreds of time to a menu. To keep performance okay, you need to reuse views. `ReusableViewConfiguration` allows you to do that.
 
-This system allows the menu to be performant when there are many offscreen elements and the menu is scrollable. It works the same way as `UITableViewCell` and `UICollectionViewCell` reusability. `ReusableViewConfiguration` allows you to specify which level of reusability you want. See more in the section on `ReusableViewConfiguration`.
+#### Creation & Updating
 
-### MenuMetrics
+Creating a custom view is separated from updating it. `ReusableViewConfiguration` has split this into two methods:
+
+- `provider` gets called when we need a new custom view
+- `update` is called when a custom view needs to be updated, which can happen many times when a menu is displayed.
+
+
+#### Reusing Views
+To make things performant, the menu will try to avoid calling the `provider` and re-use previously used custom views that are no longer displayed. It will still call `update()` on these views, so you can configure the view correctly.
+
+You make use of this system by setting the `ReusableViewConfiguration` `reuseIdentifier` to something unique: the menu takes care of caching views for you.
+
+Use the `.reusableView(reuseIdentifier:...)` methods to register a reusable view.
+
+#### Single-Element Views
+
+If you are not subclassing, you can also use per-element views. A per-element view is strictly re-used only for the same exact element instance. If the element scrolls offscreen its view is cached, if it displays again the view might be reused saving a costly creation of the view.
+
+Use the `.singleElementView()` methods to create such a view.
+
+#### One-off views
+
+If you don't really need any of the caching, use one-off views. Those views are never cached
+
+Use the `.view()` methods to use a single pre-created view or use the `.viewProvider()` method to create it on demand.

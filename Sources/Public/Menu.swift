@@ -28,6 +28,8 @@ open class Menu: MenuElement, MenuStandardContent {
 		case none
 	}
 
+	/// the way elements with `isSelected` set to `true` are shown
+	/// in a palette.
 	public enum PaletteSelectionStyle {
 		case tint
 		case openCircle
