@@ -655,7 +655,9 @@ You can control the way `isSelected` elements are shown using the `paletteSelect
 
 ## Details on Custom Views
 
-### When to Use Which Element?
+<details>
+<summary>When to Use Which CustomView Element?</summary>
+### When to Use Which CustomView Element?
 
 There are three custom view elements in AveMenuKit, for different use cases.
 
@@ -663,6 +665,9 @@ There are three custom view elements in AveMenuKit, for different use cases.
 - Use `CustomViewAction` if you want an element that the user can tap on, but with a completely custom layout
 - Use `CustomContentViewAction` if you want an `Action` but with different content and image views.
 
+</details>
+<details>
+<summary>ReusableViewConfiguration</summary>
 ### ReusableViewConfiguration
 
 For simple, one-off views such as header you don't need to take __reusability__ into account. However, if you make a subclass element that provides a different configuration you need to think of __reusability__. Your element subclass could be added hundreds of time to a menu. To keep performance okay, you need to reuse views. `ReusableViewConfiguration` allows you to do that.
@@ -693,3 +698,5 @@ Use the `.singleElementView()` methods to create such a view.
 If you don't really need any of the caching, use one-off views. Those views are never cached
 
 Use the `.view()` methods to use a single pre-created view or use the `.viewProvider()` method to create it on demand.
+</details>
+<details>
