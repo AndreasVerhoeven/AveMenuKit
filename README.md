@@ -474,7 +474,7 @@ You can also use this for subclassing to hide your internal element representati
 
 #### Example
 
-````
+```
 class Language: Group {
   var languageCode: String {
     didSet {
