@@ -501,7 +501,6 @@ let englishLanguageElement = Language(code: "en")
 let spanishLanguageElement = Language(code: "es")
 
 let menu = Menu(children: [englishLanguageElement, spanishLanguageElement])
-
 ```
 
 As you can see, people instantiating a `Language` subclass Element cannot see how it's internal implementation uses an `Action` row to actual display content.
