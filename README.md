@@ -522,6 +522,9 @@ You can use two ways to present menus:
 - `MenuInteraction` presents the menu for you on tap & long press
 - `MenuPresentation` you are in charge of presenting the menu when you need
 
+<details>
+<summary>MenuInteraction</summary>
+
 ### MenuInteraction
 
 A `MenuInteraction` can be added to any `UIView` or `UIControl` and will add appropriate gesture recognizers to show the menu when tapped or long pressed.
@@ -557,6 +560,10 @@ myButton.addInteraction(MenuInteraction(menuProvider: { [weak self] in
 
 - `presentMenu(animated:)` presents the menu if possible
 - `dismissMenu(animated:)` dismisses any presented menu
+
+</details>
+<details>
+<summary>MenuPresentation</summary>
 
 ### MenuPresentation
 
@@ -617,6 +624,8 @@ func onLongPressStarted(sender: UILongPressGestureRecognizer) {
   presentation.transferringLongPressGestureRecognizer = sender
 }
 ```
+
+</details>
 
 ## Menu Styles:
 
