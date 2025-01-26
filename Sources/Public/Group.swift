@@ -7,32 +7,26 @@
 
 import UIKit
 
+/// Logically groups elements together. You can use this for subclassing
 open class Group: MenuElement {
-	public typealias Provider = () -> [MenuElement]?
-
-	open var provider: Provider? {
-		didSet {
-			setNeedsUpdate()
-		}
+	/// Subclasses should return the elements they want to display here
+	open var displayedElements: [MenuElement] {
+		return assignedElements ?? []
 	}
 
-	open var elements: [MenuElement] {
-		return provider?() ?? []
-	}
-
-	public init(provider: Provider? = nil) {
-		self.provider = provider
+	/// the elements passed in this init are by default returned in `elements`
+	public init(elements: [MenuElement]? = nil) {
+		assignedElements = elements
 		super.init()
-	}
-
-	public convenience init(elements: [MenuElement]) {
-		self.init(provider: { elements })
 	}
 
 	// MARK: - MenuElement
 	override internal var isLeaf: Bool { false }
 
 	override func actualMenuElements(properties: MenuProperties) -> [MenuElement] {
-		return elements
+		return displayedElements
 	}
+
+	// MARK: - Privates
+	private var assignedElements: [MenuElement]?
 }

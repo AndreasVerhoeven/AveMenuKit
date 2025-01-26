@@ -465,13 +465,159 @@ See the discussion on `ReusableViewConfiguration` below.
 
 ### Group
 
+This element can be used to logically group a list of other elements - it doesn't do anything. 
+
+You can also use this for subclassing to hide your internal element representation. For example, if you want to provide a `Language` element you could either:
+
+- subclass `Action` and add a `languageCode` property which then sets the `title`. All the original properties of `Action` can still be set, including `title`.
+- subclass `Group`, add a `languageCode` property and have an internal `action` element that you override. This way, you don't leak out that you use an `Action` for displaying your contents. See the example below.
+
+#### Example
+
+````
+class Language: Group {
+  var languageCode: String {
+    didSet {
+      guard languageCode != oldValue else { return }
+      action.title = languageNameFromCode(languageCode)
+      setNeedsUpdate()
+    }
+  }
+  
+  private let action = UIAction()
+  
+  public var displayedElements: [MenuElement] {
+    return [action]
+  }
+  
+  init(code: String) {
+    self.languageCode = code
+	action.title = languageNameFromCode(code)
+	super.init()
+  }
+}
+
+let englishLanguageElement = Language(code: "en")
+let spanishLanguageElement = Language(code: "es")
+
+let menu = Menu(children: [englishLanguageElement, spanishLanguageElement])
+
+```
+
+As you can see, people instantiating a `Language` subclass Element cannot see how it's internal implementation uses an `Action` row to actual display content.
+
+
+#### Properties:
+
+- `displayedElements` override this in subclasses to dynamically provide the content of the group
+- `isHidden` if set to true, this element won't be shown at all
+
 </details>
 
 ## Presenting Menus
 
-### MenuPresentation
+AveMenuKit gives you freedom in where and how you present your menus - as opposed to UIKit, where you cannot freely present your menu - you always have to use UIKit's interaction and gestures.
+
+You can use two ways to present menus: 
+
+- `MenuInteraction` presents the menu for you on tap & long press
+- `MenuPresentation` you are in charge of presenting the menu when you need
 
 ### MenuInteraction
+
+A `MenuInteraction` can be added to any `UIView` or `UIControl` and will add appropriate gesture recognizers to show the menu when tapped or long pressed.
+
+#### Example
+
+The simplest form is to add an interaction with a passed in menu:
+
+```
+let myButton = UIButton()
+let myMenu = createMyMenu()
+myButton.addInteraction(MenuInteraction(menu: myMenu))
+```
+
+You can also dynamically provide a menu every time it is needed:
+
+```
+let myButton = UIButton()
+myButton.addInteraction(MenuInteraction(menuProvider: { [weak self] in
+  // this will be called every time the menu is presented 
+  return self?.createMyMenu()
+}))
+``` 
+
+#### Properties:
+
+- `menuProvider` a closure that will be called every time a menu is needed
+- `menu` convenience - set a menu that will be used for every presentation
+- `attachmentPointProvider` if you want to attach the menu at a different point, use this closure and return the point where the menu should attach to the control.
+- `preferredElementOrder` the preferred order of the elements in the menu
+
+#### Methods:
+
+- `presentMenu(animated:)` presents the menu if possible
+- `dismissMenu(animated:)` dismisses any presented menu
+
+### MenuPresentation
+
+If you want more control over how a menu is presented and when, you use `MenuPresentation`. Now you are in charge of presenting the menu on user interaction and you can configure it any way you want.
+
+#### Example
+
+The simplest way of presenting a menu is using the static `presentMenu()` helper:
+
+```
+func onButtonTap() {
+  let myMenu = createMyMenu()
+  MenuPresentation.presentMenu(myMenu, source: .view(myButton), animated: true)
+}
+
+```
+
+If you want more control, you can also instantiate a `MenuPresentation` and even keep it around for a long time:
+
+```
+// configure a presentation
+let presentation = MenuPresentation()
+presentation.source = .view(myButton, attachmentPoint: CGPoint(x: 100, y: 10))
+presentation.preferredElementOrder = .fixed
+presentation.dismissalCallback = { [weak myButton] in
+  myButton.isHighlighted = false 
+}
+
+// and present the menu
+myButton.isHighlighted = true
+presentation.present(animated: true)
+```
+
+#### Properties:
+
+- `menu` the menu to present - must be set before calling `present()`
+- `source` the source view or bar button item that presents the animation - must be set before calling `present()`
+- `preferredElementOrder` the preferred order of the elements in the menu
+- `transferringLongPressGestureRecognizer` used to transfer long presses to the menu, so the user can smoothly select items after a long press by just moving their finger.
+- `dismissalCallback` will be called when the menu is no longer presented
+
+
+#### Methods:
+
+- `present(animated:)` presents the menu. `menu` and `source` must be set
+- `dismiss(animated:)` dismisses the currently presented menu.
+- `presentMenu(...)` static convenience method to present a menu in one go. Returns the created `MenuPresentation` that is already presenting a menu.
+
+#### Transferring Long Presses
+
+If you present a menu on long press, it would be nice if the user can just move their finger towards the menu and select a menu element in one go, without ever lifting their finger. You can achieve this by setting `transferringLongPressGestureRecognizer`: the menu will transfer the long press gesture to the menu and allow smooth selection.
+
+You can even set this after using the static `presentMenu()` helper:
+
+```
+func onLongPressStarted(sender: UILongPressGestureRecognizer) {
+  let presentation = MenuPresentation.presentMenu(myMenu, source: .view(myButton), animated: true)
+  presentation.transferringLongPressGestureRecognizer = sender
+}
+```
 
 ## Menu Styles:
 
