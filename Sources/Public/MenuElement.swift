@@ -9,7 +9,7 @@ import UIKit
 
 /// Base class for any MenuElement; you should not subclass this directly
 /// but subclass `Group` and provide other elements
-open class MenuElement: Identifiable {
+open class MenuElement: NSObject, Identifiable, UIAccessibilityIdentification {
 	/// internal unique identifier - will be unique in a menu and its submenus
 	public internal(set) var id = UUID().uuidString
 
@@ -32,6 +32,9 @@ open class MenuElement: Identifiable {
 	/// tapping on it.
 	open func perform() {}
 
+	// MARK: UIAccessibilityIdentification
+	public var accessibilityIdentifier: String?
+
 	// MARK: - Module Internal
 	internal var ignoreUpdateCounter = 0
 
@@ -41,7 +44,7 @@ open class MenuElement: Identifiable {
 		action()
 	}
 
-	internal init() {
+	internal override init() {
 
 	}
 

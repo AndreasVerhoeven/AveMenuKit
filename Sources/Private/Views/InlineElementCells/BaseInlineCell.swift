@@ -14,7 +14,7 @@ class BaseInlineCell: UICollectionViewCell {
 
 	var size: Menu.ElementSize = .medium
 	private(set) var presentedElement: PresentedMenuElement?
-	var menuItem: MenuElement? { presentedElement?.element }
+	var element: MenuElement? { presentedElement?.element }
 
 	func setPresentedElement(_ element: PresentedMenuElement, animated: Bool) {
 		self.presentedElement = element
@@ -38,6 +38,12 @@ class BaseInlineCell: UICollectionViewCell {
 		}
 	}
 
+	var labelForAccessibility: String? {
+		return nil
+	}
+
+	// MARK: - UIView
+
 	override func didMoveToWindow() {
 		super.didMoveToWindow()
 
@@ -60,10 +66,38 @@ class BaseInlineCell: UICollectionViewCell {
 			),
 			filling: .superview
 		)
+
+		isAccessibilityElement = true
 	}
 
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+
+	// MARK: - UIAccessibility
+	override var accessibilityLabel: String? {
+		get { element?.accessibilityLabel ?? labelForAccessibility ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityHint: String? {
+		get { element?.accessibilityLabel ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityValue: String? {
+		get { element?.accessibilityValue ?? super.accessibilityValue }
+		set { super.accessibilityValue = newValue }
+	}
+
+	override var accessibilityLanguage: String? {
+		get { element?.accessibilityLanguage ?? super.accessibilityLanguage }
+		set { super.accessibilityLanguage = newValue }
+	}
+
+	override var accessibilityIdentifier: String? {
+		get { element?.accessibilityIdentifier ?? super.accessibilityIdentifier }
+		set { super.accessibilityIdentifier = newValue }
 	}
 }

@@ -28,5 +28,7 @@ class MenuSeparatorCell: MenuBaseCell {
 		})
 		view.constrain(height: 8)
 		contentView.addSubview(view, filling: .superview)
+
+		isAccessibilityElement = false
 	}
 }

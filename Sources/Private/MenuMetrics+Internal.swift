@@ -45,7 +45,7 @@ extension MenuMetrics {
 			leadingAccessoryCenterXOffset = metrics.scaledValue(for: leadingAccessoryCenterXOffset)
 			trailingAccessoryCenterXOffset = metrics.scaledValue(for: trailingAccessoryCenterXOffset)
 			leadingAccessorySymbolScale = .default
-
+			canShowTrailingAccessory = false
 			leadingContentInsetOverrideWhenHavingAccessory = metrics.scaledValue(for: leadingContentInsetOverrideWhenHavingAccessory)
 		}
 

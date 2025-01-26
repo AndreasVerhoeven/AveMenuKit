@@ -59,7 +59,7 @@ class InlineGroupCell: MenuBaseCell {
 
 	private func updateSelection(cell: UICollectionViewCell) {
 		guard let cell = cell as? BaseInlineCell else { return }
-		cell.showsAsHighlighted = (cell.menuItem?.id == highlightedMenuElementId)
+		cell.showsAsHighlighted = (cell.element?.id == highlightedMenuElementId)
 	}
 
 	// MARK: - BaseCell
@@ -67,13 +67,15 @@ class InlineGroupCell: MenuBaseCell {
 		let convertedPoint = collectionView.convert(point, from: self)
 		guard let indexPath = collectionView.indexPathForItem(at: convertedPoint) else { return nil }
 		guard let cell = collectionView.cellForItem(at: indexPath) as? BaseInlineCell else { return nil }
-		guard let menuItem = cell.menuItem else { return nil }
-		return menuItem.canBeHighlighted == true ? menuItem : nil
+		guard let element = cell.element else { return nil }
+		return element.canBeHighlighted == true ? element : nil
 	}
 
 	// MARK: - UITableViewCell
 	required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+		accessibilityElements = [collectionView]
 
 		dataSource.cellUpdater = { [weak self] tableView, cell, item, indexPath, animated in
 			guard let self else { return }

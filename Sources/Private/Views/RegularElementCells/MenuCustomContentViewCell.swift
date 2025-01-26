@@ -38,5 +38,9 @@ class MenuCustomContentViewCell: MenuContentHostingCell {
 
 		checkmarkView.tintColor = metrics.contentColor
 		checkmarkView.isHidden = (element.isSelected == false)
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.toggle(.selected, on: element.isSelected)
+		accessibilityTraits.toggle(.notEnabled, on: element.isEnabled == false)
 	}
 }

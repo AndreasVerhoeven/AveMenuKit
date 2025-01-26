@@ -22,5 +22,8 @@ class MenuCustomViewActionCell: MenuBaseCell {
 
 		let metrics = MenuMetrics(with: traitCollection, menuHasLeadingAccessories: menuHasLeadingAccessories, contentColor: element.mainContentColor)
 		customView.update(metrics: metrics, animated: animated)
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.toggle(.notEnabled, on: element.isEnabled == false)
 	}
 }

@@ -40,6 +40,9 @@ class MenuSubMenuCell: MenuContentHostingCell {
 		iconImageView.setImage(element.image, tintColor: contentColor, animated: animated)
 		chevronView.tintColor = contentColor
 		updateIconImageViewVisibility()
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.toggle(.notEnabled, on: element.isEnabled == false)
 	}
 
 	// MARK: - UITableViewCell

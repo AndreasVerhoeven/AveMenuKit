@@ -20,7 +20,7 @@ class PaletteElementContentCell: UICollectionViewCell {
 	var selectionStyle = Menu.PaletteSelectionStyle.tint
 
 	private(set) var presentedElement: PresentedMenuElement?
-	var menuItem: MenuElement? { presentedElement?.element }
+	var element: MenuElement? { presentedElement?.element }
 	var isSetupForImage = false
 	var lastUsedContentSizeCategory: UIContentSizeCategory?
 
@@ -35,15 +35,24 @@ class PaletteElementContentCell: UICollectionViewCell {
 		var contentColor: UIColor? = .secondaryLabel
 		var isSelected = false
 
-		if let action = presentedElement?.element as? Action {
+		if let action = element as? Action {
 			isSelected = action.isSelected
 			image = action.image
 			title = action.title
 			contentColor = action.smallContentColor ?? tintColor
-		} else if let subMenu = presentedElement?.element as? SubMenuElement {
+
+			accessibilityTraits.insert(.button)
+			accessibilityTraits.toggle(.selected, on: action.isSelected)
+			accessibilityTraits.toggle(.notEnabled, on: action.isEnabled == false)
+
+		} else if let subMenu = element as? SubMenuElement {
 			image = subMenu.image
 			title = subMenu.title
 			contentColor = subMenu.smallContentColor
+
+			accessibilityTraits.insert(.button)
+			accessibilityTraits.remove(.selected)
+			accessibilityTraits.toggle(.notEnabled, on: subMenu.isEnabled == false)
 		}
 
 		if let image {
@@ -97,6 +106,16 @@ class PaletteElementContentCell: UICollectionViewCell {
 		}
 	}
 
+	var labelForAccessibility: String? {
+		if let action = element as? Action {
+			return action.title ?? action.image?.accessibilityLabel
+		} else if let subMenu = element as? SubMenuElement {
+			return subMenu.title ?? subMenu.image?.accessibilityLabel
+		} else {
+			return nil
+		}
+	}
+
 
 	// MARK: - Privates
 	private func installConstraints() {
@@ -141,10 +160,38 @@ class PaletteElementContentCell: UICollectionViewCell {
 		contentView.addSubview(contentHostingView, filling: .superview)
 		contentHostingView.addSubview(selectionView)
 		installConstraints()
+
+		isAccessibilityElement = true
 	}
 
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+
+	// MARK: - UIAccessibility
+	override var accessibilityLabel: String? {
+		get { element?.accessibilityLabel ?? labelForAccessibility ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityHint: String? {
+		get { element?.accessibilityLabel ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityValue: String? {
+		get { element?.accessibilityValue ?? super.accessibilityValue }
+		set { super.accessibilityValue = newValue }
+	}
+
+	override var accessibilityLanguage: String? {
+		get { element?.accessibilityLanguage ?? super.accessibilityLanguage }
+		set { super.accessibilityLanguage = newValue }
+	}
+
+	override var accessibilityIdentifier: String? {
+		get { element?.accessibilityIdentifier ?? super.accessibilityIdentifier }
+		set { super.accessibilityIdentifier = newValue }
 	}
 }

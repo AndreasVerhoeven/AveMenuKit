@@ -65,7 +65,7 @@ class InlinePaletteCell: MenuBaseCell {
 
 	private func updateSelection(cell: UICollectionViewCell) {
 		guard let cell = cell as? PaletteElementContentCell else { return }
-		cell.showsAsHighlighted = (cell.menuItem?.id == highlightedMenuElementId)
+		cell.showsAsHighlighted = (cell.element?.id == highlightedMenuElementId)
 	}
 
 	// MARK: - BaseCell
@@ -73,22 +73,27 @@ class InlinePaletteCell: MenuBaseCell {
 		let convertedPoint = collectionView.convert(point, from: self)
 		guard let indexPath = collectionView.indexPathForItem(at: convertedPoint) else { return nil }
 		guard let cell = collectionView.cellForItem(at: indexPath) as? PaletteElementContentCell else { return nil }
-		guard let menuItem = cell.menuItem else { return nil }
-		return menuItem.canBeHighlighted == true ? menuItem : nil
+		guard let element = cell.element else { return nil }
+		return element.canBeHighlighted == true ? element : nil
 	}
 
 	// MARK: - UITableViewCell
 	required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-		dataSource.cellUpdater = { [weak self] tableView, cell, item, indexPath, animated in
+		accessibilityElements = [collectionView]
+
+		dataSource.cellUpdater = { [weak self] collectionView, cell, item, indexPath, animated in
 			guard let self else { return }
 
-			guard let cell = cell as? PaletteElementContentCell else { return }
-			cell.backgroundColor = .clear
-			cell.selectionStyle = paletteSelectionStyle
-			cell.setPresentedElement(item, animated: animated)
-			updateSelection(cell: cell)
+			if let cell = cell as? PaletteElementContentCell {
+				cell.backgroundColor = .clear
+				cell.selectionStyle = paletteSelectionStyle
+				cell.setPresentedElement(item, animated: animated)
+				updateSelection(cell: cell)
+			} else if let cell = cell as? PaletteElementLoadingCell {
+				cell.presentedMenuElement = presentedMenuElement
+			}
 		}
 
 		let configuration = UICollectionViewCompositionalLayoutConfiguration()

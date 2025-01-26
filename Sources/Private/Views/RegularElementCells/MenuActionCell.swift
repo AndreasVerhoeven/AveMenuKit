@@ -42,6 +42,10 @@ class MenuActionCell: MenuContentHostingCell {
 
 		checkmarkView.tintColor = contentColor
 		checkmarkView.isHidden = (element.isSelected == false)
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.toggle(.selected, on: element.isSelected)
+		accessibilityTraits.toggle(.notEnabled, on: element.isEnabled == false)
 	}
 
 	// MARK: - UITableViewCell

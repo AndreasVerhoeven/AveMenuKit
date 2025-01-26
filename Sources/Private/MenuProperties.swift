@@ -7,7 +7,6 @@
 
 import Foundation
 
-internal class MenuProperties {
-	//var presentationIdentifier: String 
-	public private(set) var isInAccessibilityMode = false
+internal struct MenuProperties {
+	var isInAccessibilityMode = false
 }

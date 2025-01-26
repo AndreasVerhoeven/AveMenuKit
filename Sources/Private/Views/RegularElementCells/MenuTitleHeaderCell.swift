@@ -23,5 +23,7 @@ class MenuTitleHeaderCell: MenuContentHostingCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 
 		menuContentView.addSubview(titleLabel, filling: .superview, insets: .vertical(-2))
+
+		accessibilityTraits.insert(.header)
 	}
 }

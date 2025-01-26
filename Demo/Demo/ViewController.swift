@@ -71,6 +71,7 @@ class ViewController: UIViewController {
 				label.font = metrics.contentFont
 				label.numberOfLines = 1
 				label.text = "😍"
+				label.isHidden = (metrics.canShowTrailingAccessory == false)
 			}
 		)
 

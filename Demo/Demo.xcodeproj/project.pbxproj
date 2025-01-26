@@ -73,6 +73,7 @@
 		49406E252D43A9DA00DEC5FD /* UIViewController+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49406E242D43A9DA00DEC5FD /* UIViewController+Helper.swift */; };
 		49406E272D43AA2400DEC5FD /* MenuInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49406E262D43AA2400DEC5FD /* MenuInteraction.swift */; };
 		49406E292D44CFCD00DEC5FD /* MenuMetrics+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49406E282D44CFCD00DEC5FD /* MenuMetrics+Internal.swift */; };
+		49406E4B2D46E05D00DEC5FD /* OptionSet+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49406E4A2D46E05D00DEC5FD /* OptionSet+Helper.swift */; };
 		495CD57025F668C900AF2959 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CD56F25F668C900AF2959 /* AppDelegate.swift */; };
 		495CD57225F668C900AF2959 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CD57125F668C900AF2959 /* SceneDelegate.swift */; };
 		495CD57425F668C900AF2959 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495CD57325F668C900AF2959 /* ViewController.swift */; };
@@ -146,6 +147,7 @@
 		49406E242D43A9DA00DEC5FD /* UIViewController+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helper.swift"; sourceTree = "<group>"; };
 		49406E262D43AA2400DEC5FD /* MenuInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInteraction.swift; sourceTree = "<group>"; };
 		49406E282D44CFCD00DEC5FD /* MenuMetrics+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MenuMetrics+Internal.swift"; sourceTree = "<group>"; };
+		49406E4A2D46E05D00DEC5FD /* OptionSet+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionSet+Helper.swift"; sourceTree = "<group>"; };
 		495CD56C25F668C900AF2959 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		495CD56F25F668C900AF2959 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		495CD57125F668C900AF2959 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				49406DBF2D439F1800DEC5FD /* UIView+Helper.swift */,
 				49406DC02D439F1800DEC5FD /* UIView+MenuBlurViews.swift */,
 				49406DC12D439F1800DEC5FD /* UIVisualEffectView+Helper.swift */,
+				49406E4A2D46E05D00DEC5FD /* OptionSet+Helper.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -270,10 +273,10 @@
 		49406DD42D439F1800DEC5FD /* RegularElementCells */ = {
 			isa = PBXGroup;
 			children = (
+				49406DC92D439F1800DEC5FD /* MenuBaseCell.swift */,
 				49406DC62D439F1800DEC5FD /* InlineGroupCell.swift */,
 				49406DC72D439F1800DEC5FD /* InlinePaletteCell.swift */,
 				49406DC82D439F1800DEC5FD /* MenuActionCell.swift */,
-				49406DC92D439F1800DEC5FD /* MenuBaseCell.swift */,
 				49406DCA2D439F1800DEC5FD /* MenuContentHostingCell.swift */,
 				49406DCB2D439F1800DEC5FD /* MenuCustomContentViewCell.swift */,
 				49406DCC2D439F1800DEC5FD /* MenuCustomViewActionCell.swift */,
@@ -510,6 +513,7 @@
 				49406DFB2D439F1800DEC5FD /* CutOutShadowView.swift in Sources */,
 				49406DEA2D439F1800DEC5FD /* TitleHeader.swift in Sources */,
 				49406DE32D439F1800DEC5FD /* MenuElement+Convenience.swift in Sources */,
+				49406E4B2D46E05D00DEC5FD /* OptionSet+Helper.swift in Sources */,
 				49406E022D439F1800DEC5FD /* InlinePaletteCell.swift in Sources */,
 				49406E232D43A9C400DEC5FD /* UIResponder+Helper.swift in Sources */,
 				49406E272D43AA2400DEC5FD /* MenuInteraction.swift in Sources */,

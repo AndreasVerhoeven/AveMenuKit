@@ -106,4 +106,30 @@ class MenuBaseCell: UITableViewCell {
 			separatorView.constrainedFixedHeight = 1.0 / scale
 		}
 	}
+
+	// MARK: - UIAccessibility
+	override var accessibilityLabel: String? {
+		get { element?.accessibilityLabel ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityHint: String? {
+		get { element?.accessibilityLabel ?? super.accessibilityLabel }
+		set { super.accessibilityLabel = newValue }
+	}
+
+	override var accessibilityValue: String? {
+		get { element?.accessibilityValue ?? super.accessibilityValue }
+		set { super.accessibilityValue = newValue }
+	}
+
+	override var accessibilityLanguage: String? {
+		get { element?.accessibilityLanguage ?? super.accessibilityLanguage }
+		set { super.accessibilityLanguage = newValue }
+	}
+
+	override var accessibilityIdentifier: String? {
+		get { element?.accessibilityIdentifier ?? super.accessibilityIdentifier }
+		set { super.accessibilityIdentifier = newValue }
+	}
 }

@@ -733,6 +733,8 @@ class MenuView: UIView {
 
 		// and set it, ignoring any transforms
 		hostingView.setFrameIgnoringTransform(hostingFrame, anchorPoint: anchorPoint)
+
+		UIAccessibility.post(notification: .layoutChanged, argument: nil)
 	}
 
 
@@ -914,6 +916,8 @@ class MenuView: UIView {
 
 		// we want to avoid the keyboard, so keep track of that
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+
+		accessibilityViewIsModal = true
 	}
 
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

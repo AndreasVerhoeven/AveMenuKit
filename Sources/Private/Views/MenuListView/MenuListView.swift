@@ -161,7 +161,7 @@ class MenuListView: UIView {
 
 		menu.children.forEach { $0.delegate = self }
 
-		let properties = MenuProperties()
+		let properties = MenuProperties(isInAccessibilityMode: traitCollection.preferredContentSizeCategory.isAccessibilityCategory)
 		var childrenLeafs = menu.childrenLeafs(hasMenuHeader: isSubMenu, properties: properties)
 		var headerLeafs = menu.headerLeafs(properties: properties)
 

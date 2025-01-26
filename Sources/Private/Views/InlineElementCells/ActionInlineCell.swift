@@ -19,11 +19,18 @@ class ActionInlineCell: BaseInlineCell {
 		titleLabel.text = item.title
 		titleLabel.isHidden = ((item.title?.isEmpty ?? true) == true || size == .small)
 
-		/*
-		let contentColor = item.mainContentColor(isSmall: true)
+		let contentColor: UIColor
+		if item.isEnabled == false || item.isSelected == false {
+			contentColor = item.mainContentColor
+		} else {
+			contentColor = tintColor
+		}
 		iconView.tintColor = contentColor
 		titleLabel.textColor = contentColor
-		*/
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.toggle(.selected, on: item.isSelected)
+		accessibilityTraits.toggle(.notEnabled, on: item.isEnabled == false)
 	}
 
 	func update(_ item: SubMenuElement, animated: Bool) {
@@ -33,11 +40,13 @@ class ActionInlineCell: BaseInlineCell {
 		titleLabel.text = item.title
 		titleLabel.isHidden = ((item.title?.isEmpty ?? true) == true || size == .small)
 
-		/*
-		let contentColor = item.mainContentColor(isSmall: true)
+		let contentColor = item.mainContentColor
 		iconView.tintColor = contentColor
 		titleLabel.textColor = contentColor
-		*/
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.remove(.selected)
+		accessibilityTraits.toggle(.notEnabled, on: item.isEnabled == false)
 	}
 
 	// MARK: - BaseInlineCell
@@ -47,11 +56,15 @@ class ActionInlineCell: BaseInlineCell {
 		}
 	}
 
+	override var labelForAccessibility: String? {
+		return titleLabel.accessibilityLabel ?? iconView.image?.accessibilityLabel
+	}
+
 	override func update(animated: Bool) {
-		if let item = menuItem as? Action {
-			update(item, animated: animated)
-		} else if let item = menuItem as? SubMenuElement {
-			update(item, animated: animated)
+		if let element = element as? Action {
+			update(element, animated: animated)
+		} else if let element = element as? SubMenuElement {
+			update(element, animated: animated)
 		}
 	}
 
