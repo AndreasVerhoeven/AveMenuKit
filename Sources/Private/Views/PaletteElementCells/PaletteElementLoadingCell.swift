@@ -25,6 +25,8 @@ class PaletteElementLoadingCell: UICollectionViewCell {
 		addSubview(spinner, filling: .superview)
 		spinner.startAnimating()
 
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.insert(.notEnabled)
 		accessibilityLabel = NSLocalizedString("CONTEXT_MENU_LOADING", tableName: "Localizable", bundle: Bundle(for: UIApplication.classForCoder()), comment: "")
 		isAccessibilityElement = true
 

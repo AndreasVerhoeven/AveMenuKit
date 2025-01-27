@@ -25,6 +25,10 @@ class MenuLoadingCell: MenuContentHostingCell {
 
 		menuContentView.addSubview(titleLabel, filling: .superview)
 		spinner.startAnimating()
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.insert(.notEnabled)
+		accessibilityLabel = titleLabel.text
 	}
 
 	override func prepareForReuse() {

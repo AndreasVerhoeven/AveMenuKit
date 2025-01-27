@@ -28,7 +28,7 @@ let package = Package(
         .target(
             name: "AveMenuKit",
             dependencies: [
-        		."AutoLayoutConvenience",
+        		"AutoLayoutConvenience",
         		"AveDataSource",
         		"AveCommonHelperViews",
         		"UIKitAnimations",

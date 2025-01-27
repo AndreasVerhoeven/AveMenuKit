@@ -251,8 +251,10 @@ class MenuListView: UIView {
 
 		// the header and main list are stacked: the main list can be scrollable if needed
 		let headerHeight = headerElementsListView.intrinsicContentSize.height
-		headerElementsListView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: headerHeight)
-		mainElementsListView.frame = CGRect(x: 0, y: headerHeight, width: bounds.width, height: max(0, bounds.height - headerHeight))
+		UIView.performWithoutAnimation {
+			headerElementsListView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: headerHeight)
+			mainElementsListView.frame = CGRect(x: 0, y: headerHeight, width: bounds.width, height: max(0, bounds.height - headerHeight))
+		}
 
 		headerElementsListView.layoutIfNeeded()
 		mainElementsListView.layoutIfNeeded()

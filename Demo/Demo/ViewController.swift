@@ -100,6 +100,12 @@ class ViewController: UIViewController {
 
 				]).paletteSelectionStyle(.openCircle),
 				customContentViewAction(),
+
+				.submenu(title: "Sub", [
+					Action(title: "A"),
+					Action(title: "B"),
+					Action(title: "C"),
+				])
 			],
 			headers: [
 				// a custom profile view on top as a header
@@ -120,7 +126,7 @@ class ViewController: UIViewController {
 
 		button.configuration = .filled()
 		button.configuration?.title = "Show Menu"
-		view.addSubview(button, pinnedTo: .topCenter, of: .safeArea, offset: CGPoint(x: 0, y: 4))
+		view.addSubview(button, pinnedTo: .topLeading, of: .safeArea, offset: CGPoint(x: 20, y: 4))
 
 		button.addInteraction(MenuInteraction(menu: createMenu()))
 	}

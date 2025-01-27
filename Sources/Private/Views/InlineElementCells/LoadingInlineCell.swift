@@ -38,6 +38,10 @@ class LoadingInlineCell: BaseInlineCell {
 			insets: .all(10)
 		)
 		spinner.startAnimating()
+
+		accessibilityTraits.insert(.button)
+		accessibilityTraits.insert(.notEnabled)
+		accessibilityLabel = titleLabel.text
 	}
 }
 

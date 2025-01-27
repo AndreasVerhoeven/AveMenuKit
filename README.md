@@ -699,4 +699,8 @@ If you don't really need any of the caching, use one-off views. Those views are 
 
 Use the `.view()` methods to use a single pre-created view or use the `.viewProvider()` method to create it on demand.
 </details>
-<details>
+
+## Still Todo:
+- Accessility Improvements (there's general support)
+- support reduced animations
+- UIBarButtonItem

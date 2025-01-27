@@ -100,7 +100,9 @@ class MenuView: UIView {
 			isFullDismissal = true
 			for menuListView in menuListViews {
 				menuListView.isFullyMinimized = true
-				hostingView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+				if UIAccessibility.isReduceMotionEnabled == false {
+					hostingView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+				}
 			}
 			updateMenuViews()
 		}, completion: { [self] in
@@ -609,6 +611,7 @@ class MenuView: UIView {
 			var farEndOffset: CGFloat { offset + height }
 		}
 
+		let canMinimizeFully = (UIAccessibility.isReduceMotionEnabled == false)
 		var wantedLayouts = [WantedLayout]()
 		var currentWantedHeight = CGFloat(0)
 
@@ -621,7 +624,7 @@ class MenuView: UIView {
 
 			var wantedLayout = WantedLayout()
 
-			if menuListView.isFullyMinimized == true {
+			if menuListView.isFullyMinimized == true && canMinimizeFully == true {
 				// We are fully minimized to the start or end appearance of the menu,
 				// we are small and offsetted so sub-menus look stacked.
 				wantedLayout.offset = insetToUse
@@ -714,7 +717,7 @@ class MenuView: UIView {
 		let menuAttachmentPoint = menuAttachmentPointInSelfCoordinates
 		var hostingFrame = CGRect.zero
 		hostingFrame.size.width = menuWidth
-		hostingFrame.origin.x = bounds.width * 0.5 - menuWidth * 0.5
+		hostingFrame.origin.x = min(max(usableBounds.minX, menuAttachmentPointInSelfCoordinates.x - menuWidth * 0.5), usableBounds.maxX - menuWidth)
 
 		// finally lay out our hosting frame so that all the menus fit in it
 		var anchorPoint = defaultAnchorPoint
@@ -726,9 +729,10 @@ class MenuView: UIView {
 			hostingFrame.origin.y = min(max(menuAttachmentPoint.y - totalMenuHeight, usableBounds.minY), usableBounds.maxY - totalMenuHeight)
 		}
 
-		if hostingFrame.height > 0 {
+		if hostingFrame.height > 0 && hostingFrame.width > 0 {
 			// we set the anchor point so our appearance/disappearance animations go the `menuAttachmentPoint` visually
 			anchorPoint.y = (menuAttachmentPoint.y - hostingFrame.origin.y) / hostingFrame.height
+			anchorPoint.x = (menuAttachmentPoint.x - hostingFrame.origin.x) / hostingFrame.width
 		}
 
 		// and set it, ignoring any transforms
@@ -740,8 +744,6 @@ class MenuView: UIView {
 
 	/// Updates the transform and alpha for a (sub)menu
 	private func updateMenuTransformsAndOpacity() {
-		// we have 3 cases
-
 		var visibleMenuIndex = 0
 		for menuListView in menuListViews.reversed() {
 			if menuListView.isFullyMinimized == true {
@@ -822,7 +824,7 @@ class MenuView: UIView {
 		menuListView.isSubMenuOpen = isMainMenu
 		updateMenuViews()
 
-		if isMainMenu == true {
+		if isMainMenu == true && UIAccessibility.isReduceMotionEnabled == false {
 			// when we are presenting for the firsr time, we scale the whole menu
 			// down
 			hostingView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
@@ -941,6 +943,11 @@ class MenuView: UIView {
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("not implemented")
+	}
+
+	override func accessibilityPerformEscape() -> Bool {
+		dismiss(animated: true)
+		return true
 	}
 }
 

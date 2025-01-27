@@ -36,6 +36,9 @@ class MenuSubMenuHeaderCell: MenuSubMenuCell {
 		boldTitleLabel.textColor = titleLabel.textColor
 		boldIconImageView.image = iconImageView.image
 
+		boldTitleLabel.isAccessibilityElement = false
+		boldIconImageView.isAccessibilityElement = false
+
 		if hasNewTitle {
 			UIView.performWithoutAnimation {
 				setNeedsLayout()
