@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        package(name: "AutoLayoutConvenience", url: "https://github.com/AndreasVerhoeven/AutoLayoutConvenience.git", branch: "main"),
+        .package(name: "AutoLayoutConvenience", url: "https://github.com/AndreasVerhoeven/AutoLayoutConvenience.git", branch: "main"),
 		.package(name: "AveDataSource", url: "https://github.com/AndreasVerhoeven/AveDataSource.git", branch: "master"),
         .package(name: "AveCommonHelperViews", url: "https://github.com/AndreasVerhoeven/AveCommonHelperViews.git", branch: "main"),
         .package(name: "UIKitAnimations", url: "https://github.com/AndreasVerhoeven/UIKitAnimations.git", branch: "main"),
