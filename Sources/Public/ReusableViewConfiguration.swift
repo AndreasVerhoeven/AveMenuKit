@@ -46,7 +46,7 @@ public struct ReusableViewConfiguration {
 	/// A reusable view. Views with the same `reuseIdentifier` will be
 	/// reused if possible even between different elements.
 	/// If a new view is needed, the provider is called.
-	static func reusableView<View: UIView>(
+	public static func reusableView<View: UIView>(
 		reuseIdentifier: String,
 		provider: @escaping () -> View,
 		updater: @escaping (_ view: View, _ metrics: MenuMetrics, _ animated: Bool) -> Void
@@ -57,7 +57,7 @@ public struct ReusableViewConfiguration {
 	/// A reusable view of a given class. Views with the same `reuseIdentifier` will be
 	/// reused if possible even between different elements.
 	/// If a new view is needed, it will be created with the default `init()`.
-	static func reusableView<View: UIView>(
+	public static func reusableView<View: UIView>(
 		reuseIdentifier: String,
 		viewClass: View.Type,
 		updater: @escaping (_ view: View, _ metrics: MenuMetrics, _ animated: Bool) -> Void
@@ -69,7 +69,7 @@ public struct ReusableViewConfiguration {
 	/// the same element.
 	///
 	/// If a new view is needed, the provider is called.
-	static func singleElementView<View: UIView>(
+	public static func singleElementView<View: UIView>(
 		provider: @escaping () -> View,
 		updater: @escaping (_ view: View, _ metrics: MenuMetrics, _ animated: Bool) -> Void
 	) -> Self {
@@ -80,7 +80,7 @@ public struct ReusableViewConfiguration {
 	/// the same element.
 	///
 	/// reused if possible. If a new view is needed, it will be created with the default `init()`.
-	static func singleElementView<View: UIView>(
+	public static func singleElementView<View: UIView>(
 		viewClass: View.Type,
 		updater: @escaping (_ view: View, _ metrics: MenuMetrics, _ animated: Bool) -> Void
 	) -> Self {
@@ -92,7 +92,7 @@ public struct ReusableViewConfiguration {
 	///
 	/// The same `view` will be used every time the menu is presented.
 	/// Warning: only use the `view` in a single element: using it in multiple elements will be unpredictable.
-	static func view<View: UIView>(
+	public static func view<View: UIView>(
 		_ view: View,
 		updater: @escaping (_ view: View, _ metrics: MenuMetrics, _ animated: Bool) -> Void
 	) -> Self {
@@ -104,7 +104,7 @@ public struct ReusableViewConfiguration {
 	///
 	/// The same `view` will be used every time the menu is presented.
 	/// Warning: only use the `view` in a single element: using it in multiple elements will be unpredictable.
-	static func view<View: UIView>(
+	public static func view<View: UIView>(
 		_ view: View,
 		updater: @escaping (_ metrics: MenuMetrics, _ animated: Bool) -> Void
 	) -> Self {
@@ -115,12 +115,12 @@ public struct ReusableViewConfiguration {
 
 	/// A static, not reused view. Will be recreated when needed, most likely on every (sub)menu appearance
 	/// for the element. Doesn't get update() callbacks.
-	static func viewProvider(_ provider: @escaping  () -> UIView) -> Self {
+	public static func viewProvider(_ provider: @escaping  () -> UIView) -> Self {
 		return Self(reuseIdentifier: nil, provider: provider, updater: { _, _, _ in })
 	}
 
 	/// A static, not reused view that you don't need to reconfigure
-	static func view<View: UIView>(_ view: View) -> Self {
+	public static func view<View: UIView>(_ view: View) -> Self {
 		return Self(reuseIdentifier: nil, provider: { view }, updater: { _, _, _ in })
 	}
 }

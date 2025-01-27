@@ -152,7 +152,7 @@ open class Menu: MenuElement, MenuStandardContent {
 		}
 	}
 
-	init(title: String? = nil, subtitle: String? = nil, image: UIImage? = nil, isEnabled: Bool = true, isDestructive: Bool = false, preferredElementSize: Menu.ElementSize = ElementSize.automatic, displaysInline: Bool = false, displaysAsPalette: Bool = false, betweenMenusSeparatorStyle: MenuSeparatorStyle = .automatic, onlyDismissesSubMenu: Bool = false, children: [MenuElement], headers: [MenuElement] = []) {
+	public init(title: String? = nil, subtitle: String? = nil, image: UIImage? = nil, isEnabled: Bool = true, isDestructive: Bool = false, preferredElementSize: Menu.ElementSize = ElementSize.automatic, displaysInline: Bool = false, displaysAsPalette: Bool = false, betweenMenusSeparatorStyle: MenuSeparatorStyle = .automatic, onlyDismissesSubMenu: Bool = false, children: [MenuElement], headers: [MenuElement] = []) {
 		self.preferredElementSize = preferredElementSize
 		self.displaysInline = displaysInline
 		self.displaysAsPalette = displaysAsPalette 
