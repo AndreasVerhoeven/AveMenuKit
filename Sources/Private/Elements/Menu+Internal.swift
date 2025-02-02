@@ -25,14 +25,14 @@ extension Menu {
 	}
 
 	internal func headerLeafs(properties: MenuProperties) -> [MenuElement] {
-		return leafs(from: headers, hasMenuHeader: true, properties: properties)
+		return leafs(from: headers, hasMenuHeader: true, isHeader: true, properties: properties)
 	}
 
 	internal func childrenLeafs(hasMenuHeader: Bool, properties: MenuProperties) -> [MenuElement] {
-		return leafs(from: children, hasMenuHeader: hasMenuHeader, properties: properties)
+		return leafs(from: children, hasMenuHeader: hasMenuHeader, isHeader: false, properties: properties)
 	}
 
-	internal func leafs(from elements: [MenuElement], hasMenuHeader: Bool, properties: MenuProperties) -> [MenuElement] {
+	internal func leafs(from elements: [MenuElement], hasMenuHeader: Bool, isHeader: Bool, properties: MenuProperties) -> [MenuElement] {
 		class Group {
 			var owner: Menu
 			var leafs = [MenuElement]()
@@ -55,7 +55,7 @@ extension Menu {
 			}
 		}
 		
-		func addLeafGroups(for elements: [MenuElement]) {
+		func addLeafGroups<S: Sequence>(for elements: S) where S.Element == MenuElement {
 			for element in elements where element.isHidden == false {
 				var addedToOwnerStack = false
 				if let menu = element as? Menu, menu.displaysInline == true {
@@ -78,12 +78,15 @@ extension Menu {
 			}
 		}
 
-		addLeafGroups(for: elements)
+		let shouldInvertElementOrder = (properties.shouldInvertElementOrder == true && isHeader == false)
+		let elementsToAdd = (shouldInvertElementOrder == true ? elements.reversed() : elements)
+		addLeafGroups(for: elementsToAdd)
 
 		if displaysAsPalette == true {
 			var paletteCounter = 0
 			for group in groups where group.owner === self {
-				group.leafs = [ inlinePalette(index: paletteCounter, elements: group.leafs) ]
+				let inlineElements = (shouldInvertElementOrder == true ? Array(group.leafs.reversed()) : group.leafs)
+				group.leafs = [ inlinePalette(index: paletteCounter, elements: inlineElements) ]
 				paletteCounter += 1
 			}
 		} else {
@@ -93,7 +96,9 @@ extension Menu {
 				let maximumNumberOfElements = size.maximumOfElementsPerRow
 				if maximumNumberOfElements > 0 {
 					let split = min(group.leafs.count, maximumNumberOfElements)
-					let groupElement = inlineGroup(index: buttonsCounter, elements: Array(group.leafs[..<split]), size: size)
+					let elementsToButtonize = group.leafs[..<split]
+					let inlineElements = (shouldInvertElementOrder == true ? Array(elementsToButtonize.reversed()) : Array(elementsToButtonize))
+					let groupElement = inlineGroup(index: buttonsCounter, elements: inlineElements, size: size)
 					group.leafs = [groupElement] + group.leafs[split...]
 					buttonsCounter += 1
 				}

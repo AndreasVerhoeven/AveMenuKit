@@ -16,6 +16,8 @@ extension MenuListView {
 		var isOrderInverted = false
 		var isScrolledPastTop: Bool { tableView.contentOffset.y > 0 }
 		var lastIsScrolledPastTopValue = false
+		var canPinToBottom = true
+		var didScroll = false
 		var isSubMenu = false
 		var hasScrolledPastTopChangeCallback: (() -> Void)?
 
@@ -59,7 +61,7 @@ extension MenuListView {
 
 			dataSource.apply(items: items, animated: animated)
 			updateLastHeaderCellSeparator(animated: animated)
-			pinToBottomIfNeeded()
+			pinToBottomIfNeeded(animated: animated)
 		}
 
 		func update(animated: Bool) {
@@ -146,13 +148,13 @@ extension MenuListView {
 			}
 		}
 
-		private func pinToBottomIfNeeded() {
+		public func pinToBottomIfNeeded(animated: Bool) {
 			guard isHeader == false else { return }
 			guard isOrderInverted == true else { return }
 			guard tableView.contentSize.height > bounds.height else { return }
-			DispatchQueue.main.async { [self] in
-				tableView.contentOffset = CGPoint(x: 0, y: max(0, tableView.contentSize.height - bounds.height))
-			}
+			guard didScroll == false else { return }
+			guard canPinToBottom == true else { return }
+			tableView.setContentOffset(CGPoint(x: 0, y: max(0, tableView.contentSize.height - bounds.height)), animated: animated)
 		}
 
 		// MARK: - UIView
@@ -169,7 +171,7 @@ extension MenuListView {
 			super.layoutSubviews()
 			tableView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: maximumHeight)
 			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: max(0, maximumHeight - bounds.height), right: 0)
-			pinToBottomIfNeeded()
+			pinToBottomIfNeeded(animated: false)
 		}
 
 		override init(frame: CGRect) {
@@ -216,6 +218,20 @@ extension MenuListView.ElementsListView: UITableViewDelegate {
 		guard lastIsScrolledPastTopValue != isScrolledPastTop else { return }
 		lastIsScrolledPastTopValue = isScrolledPastTop
 		hasScrolledPastTopChangeCallback?()
+	}
+
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		didScroll = true
+	}
+
+	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+		didScroll = round(tableView.contentOffset.y) < round(tableView.contentSize.height - bounds.height)
+	}
+
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		if decelerate == false {
+			didScroll = round(tableView.contentOffset.y) < round(tableView.contentSize.height - bounds.height)
+		}
 	}
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

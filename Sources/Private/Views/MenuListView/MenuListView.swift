@@ -52,7 +52,11 @@ class MenuListView: UIView {
 	// MARK: Animation State
 	/// true if we are being dismissed - used by the `MenuView` to keep track of
 	/// what's happening
-	var isBeingDismissed = false
+	var isBeingDismissed = false {
+		didSet {
+			mainElementsListView.canPinToBottom = (isBeingDismissed == false)
+		}
+	}
 
 	var isFullyMinimized = false
 	var isSubMenuOpen = false {
@@ -161,7 +165,7 @@ class MenuListView: UIView {
 
 		menu.children.forEach { $0.delegate = self }
 
-		let properties = MenuProperties(isInAccessibilityMode: traitCollection.preferredContentSizeCategory.isAccessibilityCategory)
+		let properties = MenuProperties(isInAccessibilityMode: traitCollection.preferredContentSizeCategory.isAccessibilityCategory, shouldInvertElementOrder: shouldInvertElementOrder)
 		var childrenLeafs = menu.childrenLeafs(hasMenuHeader: isSubMenu, properties: properties)
 		var headerLeafs = menu.headerLeafs(properties: properties)
 
@@ -182,6 +186,7 @@ class MenuListView: UIView {
 
 		headerElementsListView.lastHeaderItemCanHaveSeparator = (childrenLeafs.first?.canShowSeparator == true)
 		headerElementsListView.isSubMenu = isSubMenu
+		mainElementsListView.isOrderInverted = shouldInvertElementOrder
 		mainElementsListView.isSubMenu = isSubMenu
 
 		headerElementsListView.update(items: presentedHeaderElements, animated: animated)

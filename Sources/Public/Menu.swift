@@ -202,7 +202,7 @@ open class Menu: MenuElement, MenuStandardContent {
 	override func actualMenuElements(properties: MenuProperties) -> [MenuElement] {
 		if displaysInline == true {
 			let all = headers + children
-			return leafs(from: all, hasMenuHeader: false, properties: properties)
+			return leafs(from: all, hasMenuHeader: false, isHeader: false, properties: properties)
 		} else {
 			return [subMenuElement()]
 		}

@@ -52,7 +52,7 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 
 	// MARK: - Internal
 	internal var didAutoFocus = false
-	internal var originalSearchText: String?
+	internal var originalSearchText = ""
 
 	internal func setSearchTextFromSearchField(_ searchText: String) {
 		ignoreSearchTextUpdateCount += 1
@@ -71,9 +71,9 @@ open class SearchField: MenuElement, NonSelectableMenuLeaf {
 	override func cleanupAfterDisplay() {
 		didAutoFocus = false
 
-		ignoreSearchTextUpdateCount += 1
-		defer { ignoreSearchTextUpdateCount -= 1 }
-		searchText = originalSearchText ?? ""
+		if searchText != originalSearchText {
+			setSearchTextFromSearchField(originalSearchText)
+		}
 	}
 }
 

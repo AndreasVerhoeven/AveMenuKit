@@ -247,6 +247,11 @@ class MenuView: UIView {
 						highlightedMenuItem = nil
 						unscaleMenu()
 					}
+					
+					// force an update so we animate with the most recent data
+					for menuListView in menuListViews {
+						menuListView.updateImmediately()
+					}
 					// finally, invoke the menu item: this could open
 					// a submenu, or invoke a handler
 					menuItem.perform()

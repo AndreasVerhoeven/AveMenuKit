@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AutoLayoutConvenience",
+        "repositoryURL": "https://github.com/AndreasVerhoeven/AutoLayoutConvenience.git",
+        "state": {
+          "branch": "main",
+          "revision": "024797b6e5b4ee37a4c92404f9d10a344dae99fd",
+          "version": null
+        }
+      },
+      {
+        "package": "AveCommonHelperViews",
+        "repositoryURL": "https://github.com/AndreasVerhoeven/AveCommonHelperViews.git",
+        "state": {
+          "branch": "main",
+          "revision": "39d31774a724d42583a4f0242185aec95168f71c",
+          "version": null
+        }
+      },
+      {
+        "package": "AveDataSource",
+        "repositoryURL": "https://github.com/AndreasVerhoeven/AveDataSource.git",
+        "state": {
+          "branch": "master",
+          "revision": "836f93f20ab2fa65ffe1678be64700c9a8f8230d",
+          "version": null
+        }
+      },
+      {
+        "package": "UIKitAnimations",
+        "repositoryURL": "https://github.com/AndreasVerhoeven/UIKitAnimations.git",
+        "state": {
+          "branch": "main",
+          "revision": "82a1bf04a86b78200b855f4e2b4d0fdf9d092e4a",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

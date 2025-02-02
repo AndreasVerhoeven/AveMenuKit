@@ -101,6 +101,10 @@ class ViewController: UIViewController {
 				]).paletteSelectionStyle(.openCircle),
 				customContentViewAction(),
 
+				CountryPickerMenu(title: "Country", image: UIImage(systemName: "globe"), noSelectionText: "Pick...", handler: { countryCode in
+					print(countryCode!)
+				}),
+
 				.submenu(title: "Sub", [
 					Action(title: "A"),
 					Action(title: "B"),
@@ -126,7 +130,7 @@ class ViewController: UIViewController {
 
 		button.configuration = .filled()
 		button.configuration?.title = "Show Menu"
-		view.addSubview(button, pinnedTo: .topLeading, of: .safeArea, offset: CGPoint(x: 20, y: 4))
+		view.addSubview(button, pinnedTo: .bottomLeading, of: .safeArea, offset: CGPoint(x: 20, y: 4))
 
 		button.addInteraction(MenuInteraction(menu: createMenu()))
 	}

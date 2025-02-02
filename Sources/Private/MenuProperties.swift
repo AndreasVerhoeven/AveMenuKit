@@ -9,4 +9,5 @@ import Foundation
 
 internal struct MenuProperties {
 	var isInAccessibilityMode = false
+	var shouldInvertElementOrder = false
 }

@@ -81,6 +81,8 @@
 		495CD57925F668CA00AF2959 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495CD57825F668CA00AF2959 /* Assets.xcassets */; };
 		495CD57C25F668CA00AF2959 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 495CD57A25F668CA00AF2959 /* LaunchScreen.storyboard */; };
 		496C0AC12D2A046B00292929 /* AutoLayoutConvenience in Frameworks */ = {isa = PBXBuildFile; productRef = 496C0AC02D2A046B00292929 /* AutoLayoutConvenience */; };
+		4994C3D62D4F90B500100028 /* CountryElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994C3D52D4F90B500100028 /* CountryElement.swift */; };
+		4994C3D82D4F9B1100100028 /* CountryPickerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994C3D72D4F9B1100100028 /* CountryPickerMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -156,6 +158,8 @@
 		495CD57825F668CA00AF2959 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		495CD57B25F668CA00AF2959 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		495CD57D25F668CA00AF2959 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4994C3D52D4F90B500100028 /* CountryElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryElement.swift; sourceTree = "<group>"; };
+		4994C3D72D4F9B1100100028 /* CountryPickerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +198,8 @@
 				49406DA52D439F1800DEC5FD /* SearchField.swift */,
 				49406DA62D439F1800DEC5FD /* Separator.swift */,
 				49406DA72D439F1800DEC5FD /* TitleHeader.swift */,
+				4994C3D52D4F90B500100028 /* CountryElement.swift */,
+				4994C3D72D4F9B1100100028 /* CountryPickerMenu.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -463,6 +469,7 @@
 				49406E072D439F1800DEC5FD /* MenuCustomViewActionCell.swift in Sources */,
 				49406E112D439F1800DEC5FD /* MenuProperties.swift in Sources */,
 				49406DE72D439F1800DEC5FD /* ReusableViewConfiguration.swift in Sources */,
+				4994C3D82D4F9B1100100028 /* CountryPickerMenu.swift in Sources */,
 				495CD57425F668C900AF2959 /* ViewController.swift in Sources */,
 				49406DF22D439F1800DEC5FD /* SubMenuElement.swift in Sources */,
 				49406E002D439F1800DEC5FD /* PaletteElementLoadingCell.swift in Sources */,
@@ -520,6 +527,7 @@
 				49406DFC2D439F1800DEC5FD /* UIView+Helper.swift in Sources */,
 				49406DE92D439F1800DEC5FD /* Separator.swift in Sources */,
 				49406DF72D439F1800DEC5FD /* MenuListElementsView.swift in Sources */,
+				4994C3D62D4F90B500100028 /* CountryElement.swift in Sources */,
 				49406DF42D439F1800DEC5FD /* ActionInlineCell.swift in Sources */,
 				49406DFD2D439F1800DEC5FD /* UIView+MenuBlurViews.swift in Sources */,
 			);

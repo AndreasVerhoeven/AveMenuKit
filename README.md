@@ -657,6 +657,7 @@ You can control the way `isSelected` elements are shown using the `paletteSelect
 
 <details>
 <summary>When to Use Which CustomView Element?</summary>
+
 ### When to Use Which CustomView Element?
 
 There are three custom view elements in AveMenuKit, for different use cases.
@@ -668,6 +669,7 @@ There are three custom view elements in AveMenuKit, for different use cases.
 </details>
 <details>
 <summary>ReusableViewConfiguration</summary>
+
 ### ReusableViewConfiguration
 
 For simple, one-off views such as header you don't need to take __reusability__ into account. However, if you make a subclass element that provides a different configuration you need to think of __reusability__. Your element subclass could be added hundreds of time to a menu. To keep performance okay, you need to reuse views. `ReusableViewConfiguration` allows you to do that.
@@ -701,6 +703,7 @@ Use the `.view()` methods to use a single pre-created view or use the `.viewProv
 </details>
 
 ## Still Todo:
+
 - Accessility Improvements (there's general support)
 - support reduced animations
 - UIBarButtonItem
