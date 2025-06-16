@@ -15,6 +15,7 @@ import UIKit
 final class MenuViewOverlayViewController: UIViewController {
 	let menuView = MenuView()
 	var presentation: MenuPresentation?
+	var shouldAnimatedAppearance = false
 
 	// MARK: - UIViewController
 	override func loadView() {
@@ -41,7 +42,7 @@ final class MenuViewOverlayViewController: UIViewController {
 		menuView.frame = CGRect(origin: .zero, size: window.bounds.size)
 		menuView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		window.addSubview(menuView)
-		menuView.present(animated: animated)
+		menuView.present(animated: shouldAnimatedAppearance)
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {

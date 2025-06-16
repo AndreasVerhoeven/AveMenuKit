@@ -72,6 +72,7 @@ final public class MenuPresentation {
 
 		let overlayViewController = MenuViewOverlayViewController()
 		overlayViewController.presentation = self
+		overlayViewController.shouldAnimatedAppearance = animated
 		overlayViewController.menuView.menuAttachmentPoint = menuAttachmentPoint
 		overlayViewController.menuView.sourceView = sourceView
 		overlayViewController.menuView.sourceRect = sourceRect
