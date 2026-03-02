@@ -22,7 +22,7 @@ class InlineGroupCell: MenuBaseCell {
 		}
 	}
 
-	private (set) var size: Menu.ElementSize = .medium
+	private(set) var size: Menu.ElementSize = .medium
 
 	override var highlightedMenuElementId: MenuElement.ID? {
 		didSet {
